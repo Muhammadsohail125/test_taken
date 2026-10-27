@@ -18,7 +18,13 @@
       <a href="#reviews">Reviews</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a href="#buy" class="btn btn--sm">Shop now</a>
+    <div class="nav__actions">
+      <button class="cart-btn" id="cartOpen" aria-label="Open cart">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+        <span class="cart-count" id="cartCount" hidden>0</span>
+      </button>
+      <a href="#buy" class="btn btn--sm">Shop now</a>
+    </div>
   </div>
 </header>
 
@@ -120,10 +126,10 @@
       <div class="swatches-box">
         <h3>Colours</h3>
         <div class="swatches" role="radiogroup" aria-label="Colour">
-          <button class="swatch is-active" style="--c:#1c2e29" role="radio" aria-checked="true" aria-label="Forest"><span></span>Forest</button>
-          <button class="swatch" style="--c:#2b2b2e" role="radio" aria-checked="false" aria-label="Onyx"><span></span>Onyx</button>
-          <button class="swatch" style="--c:#b8875a" role="radio" aria-checked="false" aria-label="Tan"><span></span>Tan</button>
-          <button class="swatch" style="--c:#8a9bb0" role="radio" aria-checked="false" aria-label="Sky"><span></span>Sky</button>
+          <button class="swatch is-active" data-name="Forest" style="--c:#1c2e29" role="radio" aria-checked="true" aria-label="Forest"><span></span>Forest</button>
+          <button class="swatch" data-name="Onyx" style="--c:#2b2b2e" role="radio" aria-checked="false" aria-label="Onyx"><span></span>Onyx</button>
+          <button class="swatch" data-name="Tan" style="--c:#b8875a" role="radio" aria-checked="false" aria-label="Tan"><span></span>Tan</button>
+          <button class="swatch" data-name="Sky" style="--c:#8a9bb0" role="radio" aria-checked="false" aria-label="Sky"><span></span>Sky</button>
         </div>
       </div>
     </div>
@@ -157,6 +163,7 @@
       </div>
       <div class="buy__box">
         <p class="price">$64 <s>$79</s></p>
+        <p class="chosen">Colour: <strong id="chosenColor">Forest</strong> · <a href="#details">change</a></p>
         <label class="qty">Quantity
           <select id="qty" aria-label="Quantity">
             <option>1</option><option>2</option><option>3</option><option>4</option>
@@ -198,25 +205,25 @@
   </div>
 </footer>
 
-<script>
-  document.getElementById('yr').textContent = new Date().getFullYear();
+<div class="overlay" id="overlay" hidden></div>
+<aside class="drawer" id="drawer" aria-label="Shopping cart" aria-hidden="true">
+  <div class="drawer__head">
+    <h2>Your cart</h2>
+    <button class="drawer__close" id="cartClose" aria-label="Close cart">✕</button>
+  </div>
+  <div class="ship" id="ship"></div>
+  <ul class="lines" id="lines"></ul>
+  <div class="drawer__empty" id="empty"><p>Your cart is empty.</p><a href="#buy" class="btn btn--ghost" id="emptyCta">Shop the bag</a></div>
+  <div class="drawer__foot" id="foot">
+    <div class="row"><span>Subtotal</span><strong id="subtotal">$0</strong></div>
+    <div class="row muted"><span>Shipping</span><span id="shipping">—</span></div>
+    <div class="row total"><span>Total</span><strong id="total">$0</strong></div>
+    <button class="btn btn--block" id="checkout">Checkout</button>
+    <p class="note">Taxes calculated at checkout · 30-day returns</p>
+  </div>
+</aside>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  document.querySelectorAll('.swatch').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      document.querySelectorAll('.swatch').forEach(function (b) {
-        b.classList.remove('is-active');
-        b.setAttribute('aria-checked', 'false');
-      });
-      btn.classList.add('is-active');
-      btn.setAttribute('aria-checked', 'true');
-      document.querySelector('.hero__art rect').setAttribute('fill', btn.style.getPropertyValue('--c'));
-    });
-  });
-
-  document.getElementById('add').addEventListener('click', function () {
-    var q = document.getElementById('qty').value;
-    document.getElementById('msg').textContent = 'Added ' + q + ' to cart (demo).';
-  });
-</script>
+<script src="cart.js"></script>
 </body>
 </html>
